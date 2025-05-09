@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const ejsMate = require('ejs-mate');
+const morgan = require('morgan');
 const methodOverride = require('method-override');
 const Student = require('./models/student');
 
@@ -16,9 +18,12 @@ db.once('open', () => {
     
 const app = express();
 
+
+app.engine('ejs', ejsMate); // Use ejs-mate for layout support
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -60,6 +65,8 @@ app.put('/students/:id', async (req, res) => {
     res.redirect(`/students/${student._id}`)
 })
 
+
+//Deleting a student
 app.delete('/students/:id', async (req, res) => {
     const { id } = req.params;
     await Student.findByIdAndDelete(id);

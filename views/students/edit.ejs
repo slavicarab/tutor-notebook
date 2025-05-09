@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Student</title>
-</head>
-<body>
+    <% layout('/layouts/boilerplate') %>
     <form action="/students/<%= student._id %>?_method=PUT" method="post">
         <div>
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="student[name][first]" placeholder="First Name" value="<%= student.name.first %>"required>
+            <input type="text" id="firstName" name="student[name][first]" value="<%= student.name.first %>"required>
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="student[name][last]"  placeholder="Last Name" value="<%= student.name.last %>" required>
+            <input type="text" id="lastName" name="student[name][last]" value="<%= student.name.last %>" required>
         </div>
 
         <div>
             <label for="email">Email</label>
-            <input type="text" id="email" name="student[email]" placeholder="Email" value="<%= student.email %>" required>
+            <input type="text" id="email" name="student[email]" value="<%= student.email %>" required>
+        </div>
+
+        <div>
+            <label for="description">Description</label>
+            <textarea type="text" id="description" name="student[description]" value="<%= student.description %>" ></textarea>
         </div>
 
         <button>save</button>
     </form>
     <a href="/students/ <%= student._id %>"Back to student></a>
-</body>
-</html>

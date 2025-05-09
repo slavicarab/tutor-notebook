@@ -1,19 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show</title>
-</head>
-<body>
-    <h2>First name: <%= student.name.first %></h2>
-    <h2>Last name: <%= student.name.last %></h2>
-    <h2>Email: <%= student.email %></h2>
-    <footer>
-        <a href="/students/<%= student._id %>/edit">Edit</a>
-        <a href="/students">All students</a>
-        <form action="/students/<%= student._id %>?_method=DELETE" method="post">
-            <button>Delete</button>
-    </footer>
-</body>
-</html>
+    <% layout('/layouts/boilerplate') %>
+
+<div class="card text-center mb-3" style="width: 50%;">
+  <div class="card-body">
+    <h5 class="card-title mb-2 fs-4">First name: <%= student.name.first %></h5>
+    <h5 class="card-title mb-2 fs-4">Last name: <%= student.name.last %></h5>
+    <h5 class="card-title mb-3 fs-4">Email: <%= student.email %></h5>
+    <p class="card-text">Description: <%= student.description %></p>
+    <a href="/students/<%= student._id %>/edit" class="btn btn-primary">edit</a>
+    <a href="#" class="btn btn-primary">make a bill</a>
+    <a href="#" class="btn btn-primary">list all bills</a>
+    </div>
+    <div class="mb-3">
+    <form action="/students/<%= student._id %>?_method=DELETE" method="post">
+        <button class="btn btn-primary" type="button">delete</button>
+    </form>
+    </div>
+  </div>
+</div>
+<footer>
+    <a href="/students" class="btn btn-primary">back to students</a>
+</footer>
+
+
