@@ -1,13 +1,33 @@
+//importing the required modules
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const ejsMate = require('ejs-mate');
+const ExpressError = require('./utils/ExpressError')
 const morgan = require('morgan');
 const methodOverride = require('method-override');
-const Student = require('./models/student');
+const passport = require('passport');
+const LocalStrategy = require('passport-local')
+const User = require('./models/user');
+const session = require('express-session');
+const flash = require('connect-flash');
 
+
+const studentRoutes = require('./routes/students');
+const userRoutes = require('./routes/users');
+
+
+
+//Creating the express app
+const app = express();
+
+
+//Connecting to the database
 mongoose.connect('mongodb://127.0.0.1:27017/tutor-notebook', {
-    useNewUrlParser: true,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
+    //useCreateIndex: true,
+    //useFindAndModify: false
 });
 
 const db = mongoose.connection;
@@ -16,86 +36,80 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
     
-const app = express();
 
-
+//Setting up the view engine
 app.engine('ejs', ejsMate); // Use ejs-mate for layout support
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+
+//Caling the modules
 app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
 
+
+
+//Session configuration
+const sessionConfig = {
+    secret: 'yourSecretKey', 
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true, 
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 7 days
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    }
+   
+}
+app.use(session(sessionConfig));
+app.use(flash());
+
+
+//Passport
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+// Middleware to set flash messages and current user
+app.use((req, res, next) =>{
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    next()
+})
+
+
+//Routes
+
+app.use("/students", studentRoutes);
+app.use('/', userRoutes);
 
 //Get to the home page
 app.get('/', (req, res) => {
     res.render('home')});
 
-//Getting all the students
-app.get('/students', async (req, res) => {
-    const students = await Student.find({});
-    res.render('students/index', { students } );
-});
 
-
-
-//Adding a student
-app.get('/students/new', async (req,res) => {
-    res.render('students/new');
-})
-
-app.post('/students', async (req, res) => {
-    const student = new Student(req.body.student);
-    await student.save();
-    res.redirect(`students/${student._id}`); // Redirect to the newly created student's page
-    //res.redirect('/students'); // Redirect to the list of students
-});
-
-
-//Editting a student
-app.get('/students/:id/edit', async (req, res) => {
-    const student = await Student.findById(req.params.id);
-    res.render('students/edit', { student });
-});
-
-app.put('/students/:id', async (req, res) => {
-    const { id } = req.params;
-    const student = await Student.findByIdAndUpdate(id, { ...req.body.student });
-    res.redirect(`/students/${student._id}`)
+// Middleware to handle 404 errors
+app.all(/(.*)/, (req, res, next) => {
+    next(new ExpressError('Page not found', 404));
 })
 
 
-//Deleting a student
-app.delete('/students/:id', async (req, res) => {
-    const { id } = req.params;
-    await Student.findByIdAndDelete(id);
-    res.redirect('/students')
-})
+// Middleware to handle 404 errors
+app.use((err, req, res, next) => {
+    const {statusCode = 500, message = 'Something went wrong'} = err;
+    if(!err.message) err.message = 'Oh no, something went wrong!'
+    res.status(statusCode).render('error', { err });
+   
+});     
 
-
- //Getting one student
- app.get('/students/:id', async (req,res) => {
-    const student = await Student.findById(req.params.id)
-    res.render('students/show', { student });
-})
- 
-
-
-
-
-// Route to get a single student by ID
-/* app.get('/students/:id', async (req, res) => {
-    try {
-        const student = await Student.findById(req.params.id);
-        res.render('students/show', { student });
-    } catch (err) {
-        console.error(err);
-        res.status(404).send('Student not found');
-    }
-}); */
-
-
+// Start the server
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });

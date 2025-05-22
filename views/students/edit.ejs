@@ -1,22 +1,31 @@
     <% layout('/layouts/boilerplate') %>
-    <form action="/students/<%= student._id %>?_method=PUT" method="post">
-        <div>
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="student[name][first]" value="<%= student.name.first %>"required>
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="student[name][last]" value="<%= student.name.last %>" required>
-        </div>
+    <div class="row">
+        <h1 class="text-center">Edit student</h1>
+        <div class="col-6 offset-3">
+            <form action="/students/<%= student._id %>?_method=PUT" method="post" novalidate class="validated-form">
+                <div class="mb-3">
+                    <label class="form-label" for="firstName">First Name</label>
+                    <input class="form-control" type="text" id="firstName" name="student[name][first]" value="<%= student.name.first %>"required>
+                </div>
 
-        <div>
-            <label for="email">Email</label>
-            <input type="text" id="email" name="student[email]" value="<%= student.email %>" required>
-        </div>
+                <div class="mb-3">
+                    <label  class="form-label" for="lastName">Last Name</label>
+                    <input class="form-control"type="text" id="lastName" name="student[name][last]" value="<%= student.name.last %>" required>
+                </div>
 
-        <div>
-            <label for="description">Description</label>
-            <textarea type="text" id="description" name="student[description]" value="<%= student.description %>" ></textarea>
-        </div>
+                <div class="mb-3">
+                    <label  class="form-label" for="email">Email</label>
+                    <input class="form-control"type="text" id="email" name="student[email]" value="<%= student.email %>" required>
+                </div>
 
-        <button>save</button>
-    </form>
-    <a href="/students/ <%= student._id %>"Back to student></a>
+                <div class="mb-3">
+                    <label  class="form-label" for="description">Description</label>
+                    <textarea class="form-control"type="text" id="description" name="student[description]" required><%= student.description %></textarea>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info">Update Student</button>
+                </div>
+            </form>
+            <a href="/students/ <%= student._id %>" class="btn btn-secondary">Back to student</a>
+        </div>
+    </div>

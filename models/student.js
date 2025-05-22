@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Appointment = require('./appointment');
 const Schema = mongoose.Schema;
 
 
@@ -42,6 +43,12 @@ const studentSchema = new Schema({
     active: {
         type: Boolean, default: true 
     },
+    appointment: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Appointment'
+        }
+    ],
     createdAt: { 
         type: Date, default: Date.now 
     },
@@ -49,5 +56,15 @@ const studentSchema = new Schema({
         type: Date, default: Date.now 
     }
 });
+
+studentSchema.post('findOneAndDelete', async function(doc) {
+    if(doc){
+        await Appointment.deleteMany({
+            _id: {
+                $in: doc.appointment
+            }
+        });
+    }
+})
 
 module.exports = mongoose.model('Student', studentSchema);

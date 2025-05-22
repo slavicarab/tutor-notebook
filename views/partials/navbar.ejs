@@ -1,6 +1,22 @@
-    <nav class="navbar bg-body-tertiary fixed-top ">
+  <nav class="navbar bg-body-tertiary fixed-top ">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Tutor Notebook</a>
+    <div class="navbar-nav">
+        <ul class="nav justify-content-end">
+          <% if(!currentUser) {%>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+          <% } %>
+        </ul>
+    </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,6 +25,7 @@
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Tutor Notebook</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
+
       <div class="offcanvas-body">
         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
           <li class="nav-item">
@@ -22,13 +39,8 @@
               Students
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/students">List students</a></li>
+              <li><a class="dropdown-item" href="/students">List students</a></li>
               <li><a class="dropdown-item" href="/students/new">Add a student</a></li>
-              <li><a class="dropdown-item" href="/calender">Make an appointment</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#">Make a bill</a></li>
             </ul>
           </li>
         </ul>

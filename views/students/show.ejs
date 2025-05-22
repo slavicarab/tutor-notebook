@@ -1,24 +1,91 @@
-    <% layout('/layouts/boilerplate') %>
+<% layout('/layouts/boilerplate') %>
 
-<div class="card text-center mb-3" style="width: 50%;">
-  <div class="card-body">
-    <h5 class="card-title mb-2 fs-4">First name: <%= student.name.first %></h5>
-    <h5 class="card-title mb-2 fs-4">Last name: <%= student.name.last %></h5>
-    <h5 class="card-title mb-3 fs-4">Email: <%= student.email %></h5>
-    <p class="card-text">Description: <%= student.description %></p>
-    <a href="/students/<%= student._id %>/edit" class="btn btn-primary">edit</a>
-    <a href="#" class="btn btn-primary">make a bill</a>
-    <a href="#" class="btn btn-primary">list all bills</a>
+<div class="container">
+  <div class="row">
+    <!-- Left side: Student and Appointment Form -->
+    <div class="col-md-6">
+      <div id="card_student" class="card text-center mb-3">
+        <div class="card-body">
+          <h5 class="card-title mb-2 fs-4">First name: <%= student.name.first %></h5>
+          <h5 class="card-title mb-2 fs-4">Last name: <%= student.name.last %></h5>
+          <h5 class="card-title mb-3 fs-4">Email: <%= student.email %></h5>
+          <% if (student.description) { %>
+            <p class="card-text">Description: <%= student.description %></p>
+          <% } %>
+          <a href="/students/<%= student._id %>/edit" class="btn btn-info">edit</a>
+        </div>
+        <div class="mb-3">
+          <form action="/students/<%= student._id %>?_method=DELETE" method="post" novalidate class="mb-3 validated-form">
+            <button class="btn btn-danger" type="submit">delete</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="card_appointment" class="card text-center mb-3">
+        <div class="card-body">
+          <h5 class="card-title mb-2 fs-4">Make an appointment</h5>
+          <form action="/students/<%= student._id %>/appointment" method="POST" novalidate class="mb-3 validated-form">
+            <div class="mb-3">
+              <label class="form-label" for="date">Date:</label>
+              <input class="form-control" type="date" id="date" name="appointment[date]" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="startTime">Start Time:</label>
+              <input class="form-control" type="time" id="startTime" name="appointment[startTime]" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="endTime">End Time:</label>
+              <input class="form-control" type="time" id="endTime" name="appointment[endTime]" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="note">Note:</label>
+              <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
+            </div>
+            <div class="mb-3">
+              <% if (student.appointment.note) { %>
+                <p class="card-text">Note: <%= student.appointment.note %></p>
+              <% } %>
+              <!-- <label class="form-label" for="description">Description:</label>
+              <textarea id="description" name="appointment[description]"></textarea> -->
+            </div>
+            <select name="appointment[status]">
+                <option value="booked">booked</option>
+                <option value="held">held</option>
+                <option value="cancelled">cancelled</option>
+            </select>
+            <button class="btn btn-success" type="submit">save</button>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="mb-3">
-    <form action="/students/<%= student._id %>?_method=DELETE" method="post">
-        <button class="btn btn-primary" type="button">delete</button>
-    </form>
+    
+    <!-- Right side: Appointment List -->
+    <div class="col-md-6">
+      <% for (let appointment of appointments) { %>
+        <form action="/students/<%= student._id %>/appointment/<%= appointment._id %>?_method=PUT" method="POST" novalidate class="mb-3 validated-form">
+        <div id="appointment_list" class="card mb-3">
+          <div class="card-body">
+                <input class="form-control" type="date" id="date" name="appointment[date]" value="<%= appointment.date ? new Date(appointment.date).toISOString().slice(0,10) : '' %>" required>
+                <input class="form-control" type="time" id="startTime" name="appointment[startTime]"  value="<%= appointment.startTime %>" required>
+                <input class="form-control" type="time" id="endTime" name="appointment[endTime]" value="<%= appointment.endTime %>" required>
+                <label class="form-label" for="note">Note:</label>
+                <textarea class="form-control" type="text" id="note" name="appointment[note]" required><%= appointment.note %></textarea>
+
+                <select name="appointment[status]">
+                    <option value="booked">booked</option>
+                    <option value="held">held</option>
+                    <option value="cancelled">cancelled</option>
+                </select>
+                <button class="btn btn-success" type="submit">save</button>
+          </div>
+
+        </div>
+        </form>
+      <% } %>
+        
+      <a href="/students" class="btn btn-outline-secondary">back to students</a>
     </div>
   </div>
 </div>
-<footer>
-    <a href="/students" class="btn btn-primary">back to students</a>
-</footer>
 
 

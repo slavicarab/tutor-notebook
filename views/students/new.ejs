@@ -2,32 +2,48 @@
     <div class="row">
         <h1 class="text-center">New student</h1>
         <div class="col-6 offset-3">
-            <form action="/students" method="post">
+            <form action="/students" method="post" novalidate class="mb-3 validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="firstName">First Name</label>
                     <input class="form-control" type="text" id="firstName" name="student[name][first]" placeholder="First Name" required>
+                    <div class="valid-feedback">
+                    Looks good     
+                    </div> 
                 </div>
 
                 <div class="mb-3">
                     <label  class="form-label" for="lastName">Last Name</label>
                     <input class="form-control" type="text" id="lastName" name="student[name][last]"  placeholder="Last Name" required>
+                    <div class="valid-feedback">
+                    Looks good     
+                    </div>              
+                    
                 </div>
 
                 <div class="mb-3">
                     <label  class="form-label" for="email">Email</label>
                     <input class="form-control" type="text" id="email" name="student[email]" placeholder="Email" required>
+                    <div class="valid-feedback">
+                    Looks good     
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label  class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="student[description]"></textarea>
+                    <textarea class="form-control" type="text" id="description" name="student[description]" required></textarea>
+                    <div class="valid-feedback">
+                    Looks good     
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-success" style="width: 5rem;">save</button>
                 </div>
             </form>
-            <a href="/students"> All students</a>
+            <a href="/students" class="btn btn-secondary" style="margin-bottom: 10px"> All students</a>
         </div>
     </div>
+
+
+
 
     
