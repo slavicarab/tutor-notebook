@@ -11,6 +11,7 @@ const LocalStrategy = require('passport-local')
 const User = require('./models/user');
 const session = require('express-session');
 const flash = require('connect-flash');
+const { isLoggedIn } = require('./middleware');
 
 
 const studentRoutes = require('./routes/students');
@@ -87,7 +88,7 @@ app.use((req, res, next) =>{
 
 //Routes
 
-app.use("/students", studentRoutes);
+app.use("/students", isLoggedIn, studentRoutes);
 app.use('/', userRoutes);
 
 //Get to the home page

@@ -41,13 +41,7 @@
               <label class="form-label" for="note">Note:</label>
               <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
             </div>
-            <div class="mb-3">
-              <% if (student.appointment.note) { %>
-                <p class="card-text">Note: <%= student.appointment.note %></p>
-              <% } %>
-              <!-- <label class="form-label" for="description">Description:</label>
-              <textarea id="description" name="appointment[description]"></textarea> -->
-            </div>
+
             <select name="appointment[status]">
                 <option value="booked">booked</option>
                 <option value="held">held</option>

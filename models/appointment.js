@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const appointmentSchema = new mongoose.Schema({
     date: {
@@ -20,6 +21,14 @@ const appointmentSchema = new mongoose.Schema({
         enum: ['booked', 'held', 'cancelled'],
         default: 'booked'
     },
+    participants_student: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Student'
+    }],
+    participants_user: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
 });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);

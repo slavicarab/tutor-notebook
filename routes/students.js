@@ -6,7 +6,8 @@ const Student = require('../models/student');
 const Appointment = require('../models/appointment')
 const { studentSchema, appointmentSchema } = require('../schemas.js');
 const Joi = require('joi');
-const { isLoggedIn } = require('../middleware');
+const appointment = require('../models/appointment');
+//const { isLoggedIn } = require('../middleware');
 
 
 //Validation middleware for students
@@ -35,30 +36,36 @@ const validateAppointment = (req, res, next) => {
 
 // Getting all the students
 router.get('/', catchAsync(async (req, res) => {
-    const students = await Student.find({});
+    const students = await Student.find({ user: req.user._id });
     res.render('students/index', { students });
 }));
 
 // Adding a student
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', (req, res) => {
     res.render('students/new');
 });
 
-router.post('/', isLoggedIn, validateStudent, catchAsync(async (req, res, next) => {
+router.post('/', validateStudent, catchAsync(async (req, res, next) => {
     const student = new Student(req.body.student);
+    student.user = req.user._id; // <-- Set the user reference
     await student.save();
+
+    // Optionally update the user as well
+    const User = require('../models/user');
+    await User.findByIdAndUpdate(req.user._id, { student: student._id });
+
     req.flash('success', 'Successfully added a new student!');
-    res.redirect(`students/${student._id}`);
+    res.redirect('students');
 }));
 
 // Editing a student
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res, next) => {
+router.get('/:id/edit', catchAsync(async (req, res, next) => {
     
     const student = await Student.findById(req.params.id);
     res.render('students/edit', { student });
 }));
 
-router.put('/:id', isLoggedIn, validateStudent, catchAsync(async (req, res, next) => {
+router.put('/:id', validateStudent, catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const student = await Student.findByIdAndUpdate(id, { ...req.body.student });
     req.flash('success', 'Successfully updated student!');
@@ -66,7 +73,7 @@ router.put('/:id', isLoggedIn, validateStudent, catchAsync(async (req, res, next
 }));
 
 // Deleting a student
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res, next) => {
+router.delete('/:id', catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Student.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted student!');
@@ -75,9 +82,10 @@ router.delete('/:id', isLoggedIn, catchAsync(async (req, res, next) => {
 
 
 //Adding an appointment to a student
-router.post('/:id/appointment', isLoggedIn, validateAppointment, catchAsync(async (req, res) => {
+router.post('/:id/appointment', validateAppointment, catchAsync(async (req, res) => {
     const { id } = req.params;
     const student = await Student.findById(id);
+    const user = req.user;
 
     // Validate that the required fields are present
     const { date, startTime, endTime, description, status, note } = req.body.appointment;
@@ -86,7 +94,8 @@ router.post('/:id/appointment', isLoggedIn, validateAppointment, catchAsync(asyn
     }
 
     
-    const appointment = new Appointment({ date, startTime, endTime, description, status, note });
+    const appointment = new Appointment({ date, startTime, endTime, description, status, note, participants_student: [student._id], participants_user: [user._id] });
+    console.log(appointment)
     student.appointment.push(appointment);
     await appointment.save();
     await student.save();
@@ -96,7 +105,7 @@ router.post('/:id/appointment', isLoggedIn, validateAppointment, catchAsync(asyn
 
 
 //Editing an appointment
-router.put('/:id/appointment/:appointment_id', isLoggedIn, validateAppointment, catchAsync(async (req, res) => {
+router.put('/:id/appointment/:appointment_id', validateAppointment, catchAsync(async (req, res) => {
     const { id } = req.params;
     const { appointment_id } = req.params;
     const student = await Student.findById(id);
@@ -125,8 +134,9 @@ router.get('/:id', catchAsync(async (req, res) => {
         req.flash('error', 'Student not found');
         return res.redirect('/students');
     }
-    // If appointments are stored as an array of ObjectIds in student.appointment
+    // Now student.appointment is an array of appointment documents
     const appointments = (student.appointment || []).filter(app => app.status === 'booked');
+    console.log(student.appointment);
     res.render('students/show', { student, appointments });
 }));
 

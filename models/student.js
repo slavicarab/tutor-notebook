@@ -43,18 +43,22 @@ const studentSchema = new Schema({
     active: {
         type: Boolean, default: true 
     },
-    appointment: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Appointment'
-        }
-    ],
     createdAt: { 
         type: Date, default: Date.now 
     },
     updatedAt: { 
         type: Date, default: Date.now 
-    }
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    appointment: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Appointment'
+        }
+    ]
 });
 
 studentSchema.post('findOneAndDelete', async function(doc) {

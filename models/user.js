@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
+const student = require('./student');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -15,6 +16,10 @@ const UserSchema = new Schema({
         type: String,
         trim: true
     },
+    student: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Student'
+    }],
 
 });
 
