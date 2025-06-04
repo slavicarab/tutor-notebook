@@ -1,0 +1,47 @@
+<% layout('/layouts/boilerplate') %>
+
+<h1>Appointments Calendar</h1>
+
+<!-- FullCalendar CSS -->
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
+
+<div id="calendar"></div>
+
+<script>
+  const appointments = <%- JSON.stringify(appointments.map(function(app) {
+    let dateStr = typeof app.date === 'string'
+      ? app.date.substring(0, 10)
+      : (new Date(app.date)).toISOString().substring(0, 10);
+    let title = '';
+    if (app.student && typeof app.student === 'object') {
+      if (app.student.name.first) title += app.student.name.first;
+      if (app.student.name.last) title += ' ' + app.student.name.last;
+      if (!app.student.name.first && !app.student.name.last && app.student.name) title += app.student.name;
+    }
+    if (app.description) title += ': ' + app.description;
+    return {
+      title: title.trim(),
+      start: dateStr + (app.startTime ? 'T' + app.startTime : ''),
+      url: '/students/' + (app.student && app.student._id ? app.student._id : '')
+    };
+  })) %>
+  console.log(appointments);
+  
+</script>
+
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      events: appointments
+    });
+    calendar.render();
+  });
+</script>
+
+
+
+

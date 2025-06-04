@@ -6,8 +6,6 @@ const Student = require('../models/student');
 const Appointment = require('../models/appointment')
 const { studentSchema, appointmentSchema } = require('../schemas.js');
 const Joi = require('joi');
-const appointment = require('../models/appointment');
-//const { isLoggedIn } = require('../middleware');
 
 
 //Validation middleware for students
@@ -136,7 +134,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     }
     // Now student.appointment is an array of appointment documents
     const appointments = (student.appointment || []).filter(app => app.status === 'booked');
-    console.log(student.appointment);
+    //console.log(student.appointment);
     res.render('students/show', { student, appointments });
 }));
 

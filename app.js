@@ -14,8 +14,10 @@ const flash = require('connect-flash');
 const { isLoggedIn } = require('./middleware');
 
 
+
 const studentRoutes = require('./routes/students');
 const userRoutes = require('./routes/users');
+const calendarRoutes = require('./routes/calendar');
 
 
 
@@ -88,8 +90,10 @@ app.use((req, res, next) =>{
 
 //Routes
 
-app.use("/students", isLoggedIn, studentRoutes);
+app.use('/students', isLoggedIn, studentRoutes);
+app.use('/calendar', isLoggedIn, calendarRoutes)
 app.use('/', userRoutes);
+
 
 //Get to the home page
 app.get('/', (req, res) => {
