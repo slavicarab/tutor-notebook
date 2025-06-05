@@ -4,7 +4,9 @@
   <div class="row">
     <!-- Left side: Student and Appointment Form -->
     <div class="col-md-6">
+      
       <div id="card_student" class="card text-center mb-3">
+         <h5>Personal data</h5>
         <div class="card-body">
           <h5 class="card-title mb-2 fs-4">First name: <%= student.name.first %></h5>
           <h5 class="card-title mb-2 fs-4">Last name: <%= student.name.last %></h5>
@@ -22,6 +24,7 @@
       </div>
 
       <div id="card_appointment" class="card text-center mb-3">
+        
         <div class="card-body">
           <h5 class="card-title mb-2 fs-4">Make an appointment</h5>
           <form action="/students/<%= student._id %>/appointment" method="POST" novalidate class="mb-3 validated-form">
@@ -55,6 +58,7 @@
     
     <!-- Right side: Appointment List -->
     <div class="col-md-6">
+      <h5>Booked appointments</h5>
       <% for (let appointment of appointments) { %>
         <form action="/students/<%= student._id %>/appointment/<%= appointment._id %>?_method=PUT" method="POST" novalidate class="mb-3 validated-form">
         <div id="appointment_list" class="card mb-3">

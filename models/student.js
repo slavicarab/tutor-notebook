@@ -53,12 +53,17 @@ const studentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    appointment: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Appointment'
+    appointment: [{
+        date: String,
+        startTime: String,
+        endTime: String,
+        note: String,
+        status: String,
+        student: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Student'
         }
-    ]
+    }]
 });
 
 studentSchema.post('findOneAndDelete', async function(doc) {

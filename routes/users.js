@@ -19,12 +19,15 @@ router.post('/register', catchAsync(async (req, res) => {
         req.login(registeredUser, err => {
             if(err) return next(err);
             req.flash('success', 'Welcome to yelp camp')
-            res.redirect('/students')
+            res.redirect('/calendar')
         })
 
     } catch (e) {
-        console.log(e.message);
-        req.flash('error', e.message);
+        if (e.code === 11000) {
+            req.flash('error', 'Email already in use.');
+        } else {
+            req.flash('error', e.message);
+        }
         return res.redirect('register');
     }
 
@@ -40,7 +43,7 @@ router.get('/login', (req, res) => {
 router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login'}), (req, res) => { 
     console.log(req.body);
     req.flash('success', 'welcome back!')
-    res.redirect('/students')
+    res.redirect('/calendar')
 })
 
 
@@ -52,7 +55,7 @@ router.get('/logout', (req, res) => {
             return res.redirect('/students');
         }
         req.flash('success', 'Goodbye!');
-        res.redirect('/students');
+        res.redirect('/'); // Redirect to home page
     });
 })
 

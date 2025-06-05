@@ -1,11 +1,12 @@
     <% layout('/layouts/boilerplate') %>
-    <h1>All students</h1>
-    <div>
-        <a href="/students/new">Add a new student</a>
-    </div>
-    <ul>
+    <h1 style="font-size: 1.5rem;">My students</h1>
+
+    <div class="list-group">
         <% for (let student of students){%>
-            <li><a href="/students/<%= student._id %>"><%= student.name.first %> <%= student.name.last %></a></li>
+            <a class="list-group-item list group-item-action border border-success p-2 border-opacity-10" href="/students/<%= student._id %>"><%= student.name.first %> <%= student.name.last %></a>
         <% } %>
 
-    </ul>
+    </div>
+        <div>
+        <a class="btn btn-success " href="/students/new" style="text-decoration: none; margin-top: 1rem;">Add a new student</a>
+    </div>

@@ -18,6 +18,7 @@ const { isLoggedIn } = require('./middleware');
 const studentRoutes = require('./routes/students');
 const userRoutes = require('./routes/users');
 const calendarRoutes = require('./routes/calendar');
+const newppointRoutes = require('./routes/newppoint');
 
 
 
@@ -92,12 +93,19 @@ app.use((req, res, next) =>{
 
 app.use('/students', isLoggedIn, studentRoutes);
 app.use('/calendar', isLoggedIn, calendarRoutes)
+app.use('/newppoint', newppointRoutes);
 app.use('/', userRoutes);
+
 
 
 //Get to the home page
 app.get('/', (req, res) => {
     res.render('home')});
+
+// Get to the dashboard page
+// app.get('/dashboard', (req, res) => {
+//   res.render('dashboard'); // or similar
+// });
 
 
 // Middleware to handle 404 errors

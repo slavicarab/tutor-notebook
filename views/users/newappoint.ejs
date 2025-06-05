@@ -1,0 +1,43 @@
+<% layout('/layouts/boilerplate') %>
+<div class="container">
+    <div class="col-md-8 d-flex justify-content-center align-items-center"> 
+        <div id="card_appointment" class="card text-center mb-3" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title mb-2 fs-4">Make an appointment</h5>
+                <form action="/newppoint" method="POST" novalidate class="mb-3 validated-form">
+                    <div class="mb-3">
+                        <label class="form-label" for="studentId">Select Student:</label>
+                        <select class="form-control" id="studentId" name="studentId" required>
+                        <% students.forEach(function(student) { %>
+                            <option value="<%= student._id %>"><%= student.name.first %> <%= student.name.last %></option>
+                        <% }) %>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="date">Date:</label>
+                        <input class="form-control" type="date" id="date" name="appointment[date]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="startTime">Start Time:</label>
+                        <input class="form-control" type="time" id="startTime" name="appointment[startTime]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="endTime">End Time:</label>
+                        <input class="form-control" type="time" id="endTime" name="appointment[endTime]" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="note">Note:</label>
+                        <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
+                    </div>
+
+                    <select name="appointment[status]">
+                        <option value="booked">booked</option>
+                        <option value="held">held</option>
+                        <option value="cancelled">cancelled</option>
+                    </select>
+                    <button class="btn btn-success" type="submit">save</button>
+                </form>
+        </div>
+      </div>
+    </div>
+</div>
