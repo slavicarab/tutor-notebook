@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const catchAsync = require('../utils/catchAsync');
+const catchAsync = require('../middlewares/catchAsync');
 const Student = require('../models/student');
 
 
@@ -25,7 +25,25 @@ router.get('/', catchAsync(async (req, res) => {
         const dateB = new Date(b.date + 'T' + (b.startTime || '00:00:00'));
         return dateA - dateB;
     });
-    res.render('calendar', { students, appointments });
+    appointments = JSON.stringify(appointments.map(function(app) {
+    let dateStr = typeof app.date === 'string'
+      ? app.date.substring(0, 10)
+      : (new Date(app.date)).toISOString().substring(0, 10);
+    let title = '';
+    if (app.student && typeof app.student === 'object') {
+      if (app.student.name.first) title += app.student.name.first;
+      if (app.student.name.last) title += ' ' + app.student.name.last;
+      if (!app.student.name.first && !app.student.name.last && app.student.name) title += app.student.name;
+    }
+    if (app.description) title += ': ' + app.description;
+    return {
+      title: title.trim(),
+      start: dateStr + (app.startTime ? 'T' + app.startTime : ''),
+      url: '/students/' + (app.student && app.student._id ? app.student._id : '')
+    };
+  }))
+  console.log(appointments);
+    res.render('calendar', {  appointments });
 }));
 
 module.exports = router;

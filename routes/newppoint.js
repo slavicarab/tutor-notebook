@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const catchAsync = require('../utils/catchAsync');
+const catchAsync = require('../middlewares/catchAsync');
 const Student = require('../models/student');
-const { isLoggedIn } = require('../middleware');
+const { isLoggedIn } = require('../middlewares/middleware');
 
 
 // Route to render the new appointment form
 router.get('/new', isLoggedIn, async (req, res) => {
-    const students = await Student.find({});
+    const students = await Student.find({ user: req.user._id }); // Fetch students associated with the logged-in user
     res.render('users/newappoint', { students });
 });
 

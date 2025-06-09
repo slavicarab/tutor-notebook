@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const catchAsync = require('../utils/catchAsync');
+const catchAsync = require('../middlewares/catchAsync.js');
 const ExpressError = require('../utils/ExpressError');
 const Student = require('../models/student');
 const Appointment = require('../models/appointment')
-const { studentSchema, appointmentSchema } = require('../schemas.js');
+const { studentSchema, appointmentSchema } = require('../models/schemas.js');
 const Joi = require('joi');
 
 

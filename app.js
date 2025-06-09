@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local')
 const User = require('./models/user');
 const session = require('express-session');
 const flash = require('connect-flash');
-const { isLoggedIn } = require('./middleware');
+const { isLoggedIn } = require('./middlewares/middleware');
 
 
 
@@ -19,6 +19,7 @@ const studentRoutes = require('./routes/students');
 const userRoutes = require('./routes/users');
 const calendarRoutes = require('./routes/calendar');
 const newppointRoutes = require('./routes/newppoint');
+const searchRoutes = require('./routes/api');
 
 
 
@@ -92,7 +93,8 @@ app.use((req, res, next) =>{
 //Routes
 
 app.use('/students', isLoggedIn, studentRoutes);
-app.use('/calendar', isLoggedIn, calendarRoutes)
+app.use('/calendar', isLoggedIn, calendarRoutes);
+app.use('/api', isLoggedIn, searchRoutes);
 app.use('/newppoint', newppointRoutes);
 app.use('/', userRoutes);
 
