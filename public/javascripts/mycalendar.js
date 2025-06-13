@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar');
+  const aspect = window.innerWidth < 600 ? 0.7 : 1.35;
   const calendar = new FullCalendar.Calendar(calendarEl, {
     headerToolbar: {
       left: 'prev,next',
@@ -21,7 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     initialView: 'dayGridMonth',
-    events: appointments
+    aspectRatio: aspect,
+    events: appointments,
   });
   calendar.render();
 });

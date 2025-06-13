@@ -1,21 +1,21 @@
 <% layout('/layouts/boilerplate') %>
 
-<h1 style="font-size: 2rem;">Calendar</h1>
+<h1>Calendar</h1>
 
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="/stylesheets/calendar.css">
 
-
-<div id="calendar"></div>
-
+<div class="calendar-responsive">
+  <div id="calendar"></div>
+</div>
 
 <script>
   const appointments = <%- appointments %>;
-  
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
 <script src="/javascripts/mycalendar.js"></script>
+
 
 
 

@@ -1,6 +1,6 @@
-    <% layout('/layouts/boilerplate') %>
+<% layout('/layouts/boilerplate') %>
     <div class="row">
-        <h1 class="text-center">New student</h1>
+        <h1 class="text-center" style="font-size: 2rem">Add a new student</h1>
         <div class="col-6 offset-3">
             <form action="/students" method="post" novalidate class="mb-3 validated-form">
                 <div class="mb-3">
@@ -35,15 +35,17 @@
                     Looks good     
                     </div>
                 </div>
-                <div class="mb-3">
-                    <button class="btn btn-success" style="width: 5rem;">save</button>
+                <div class="d-grid gap-2 mb-2">
+                    <button class="btn btn-success">Save</button>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/students" class="btn btn-outline-secondary" style="font-weight: 500;">All students</a>
                 </div>
             </form>
-            <a href="/students" class="btn btn-secondary" style="margin-bottom: 10px"> All students</a>
         </div>
     </div>
 
 
 
 
-    
+

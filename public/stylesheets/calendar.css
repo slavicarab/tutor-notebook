@@ -1,0 +1,56 @@
+
+ .calendar-responsive {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px; 
+  } 
+  #calendar {
+    width: 100%;
+  }
+  .fc-header-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .fc-direction-ltr .fc-toolbar > * > :not(:first-child){
+    margin-left: 0px;
+  }
+  
+  .fc-toolbar-chunk {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  h1{
+    font-size: 2.2rem;
+  }
+
+  @media (max-width: 600px) {
+    .calendar-responsive {
+      padding: 2px;
+    }
+    h1 {
+      font-size: 1.2rem;
+    } 
+    .fc-header-toolbar {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.3rem;
+    }
+    .fc-toolbar-chunk {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.3rem;
+    }
+    .fc-toolbar-chunk .fc-button,
+    .fc-toolbar-chunk button {
+      width: 100%;
+      font-size: 1rem;
+      min-width: unset;
+    }
+  }

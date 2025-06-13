@@ -1,12 +1,13 @@
     <% layout('/layouts/boilerplate') %>
-    <h1 style="font-size: 1.5rem;">My students</h1>
+    <link rel="stylesheet" href="/stylesheets/index.css">
+    <h1 style="font-size: 2rem">My students</h1>
 
-    <div class="list-group">
+    <div class="list-group list-group-flush">
         <% for (let student of students){%>
-            <a class="list-group-item list group-item-action border border-success p-2 border-opacity-10" href="/students/<%= student._id %>"><%= student.name.first %> <%= student.name.last %></a>
+            <a class="list-group-item" href="/students/<%= student._id %>"><%= student.name.first %> <%= student.name.last %></a>
         <% } %>
 
     </div>
         <div>
-        <a class="btn btn-success " href="/students/new" style="text-decoration: none; margin-top: 1rem;">Add a new student</a>
+        <a class="btn btn-outline-secondary" href="/students/new" style="text-decoration: none; margin-top: 1rem; font-weight: 500;">Add a new student</a>
     </div>

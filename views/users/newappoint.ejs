@@ -1,9 +1,11 @@
 <% layout('/layouts/boilerplate') %>
-<div class="container">
-    <div class="col-md-8 d-flex justify-content-center align-items-center"> 
+<div class="container d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
+    <h1 class="text-center mb-3" style="font-size: 2rem;">Add a new appointment</h1>
+    <div class="col-md-8 d-flex justify-content-center align-items-center">
+        
         <div id="card_appointment" class="card text-center mb-3" style="width: 40rem;">
             <div class="card-body">
-                <h5 class="card-title mb-2 fs-4">Make an appointment</h5>
+                
                 <form action="/newppoint" method="POST" novalidate class="mb-3 validated-form">
                     <div class="mb-3">
                         <label class="form-label" for="studentId">Select Student:</label>
@@ -29,15 +31,16 @@
                         <label class="form-label" for="note">Note:</label>
                         <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
                     </div>
-
-                    <select name="appointment[status]">
+                    <div class="mb-3 mt-3">
+                    <select name="appointment[status]" class="col-12 mx-auto" style="border-radius: 5px; padding: 4px; text-align: center;">
                         <option value="booked">booked</option>
                         <option value="held">held</option>
                         <option value="cancelled">cancelled</option>
                     </select>
-                    <button class="btn btn-success" type="submit">save</button>
+                    </div>
+                    <button class="btn btn-success col-12 mx-auto"  type="submit">save</button>
                 </form>
+            </div>
         </div>
-      </div>
     </div>
 </div>

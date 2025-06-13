@@ -5,29 +5,30 @@
   <div class="row">
     <!-- Left side: Student and Appointment Form -->
     <div class="col-md-6">
-      
+      <h3 class="card-title mb-2 fs-4">Personal data</h3>
       <div id="card_student" class="card text-center mb-3">
-         <h5>Personal data</h5>
-        <div class="card-body">
-          <h5 class="card-title mb-2 fs-4">First name: <%= student.name.first %></h5>
-          <h5 class="card-title mb-2 fs-4">Last name: <%= student.name.last %></h5>
-          <h5 class="card-title mb-3 fs-4">Email: <%= student.email %></h5>
+          <div class="card-body">
+          <h5 class="card-subtitle mb-2">First name: <span style="font-weight: 400;"><%= student.name.first %></span></h5>
+          <h5 class="card-subtitle mb-2">Last name: <span style="font-weight: 400;"><%= student.name.last %></span></h5>
+          <h5 class="card-subtitle mb-2">E-mail: <span style="font-weight: 400;"><%= student.email %></span></h5>
           <% if (student.description) { %>
             <p class="card-text">Description: <%= student.description %></p>
           <% } %>
-          <a href="/students/<%= student._id %>/edit" class="btn btn-info">edit</a>
+          
         </div>
-        <div class="mb-3">
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <a href="/students/<%= student._id %>/edit" class="btn btn-success">Edit</a>
           <form action="/students/<%= student._id %>?_method=DELETE" method="post" novalidate class="mb-3 validated-form">
-            <button class="btn btn-danger" type="submit">delete</button>
+            <button class="btn btn-danger col-12 mx-auto" type="submit">Delete</button>
           </form>
         </div>
       </div>
 
+      <h3 class="card-title mb-2 fs-4">Make an appointment</h3>
       <div id="card_appointment" class="card text-center mb-3">
         
         <div class="card-body">
-          <h5 class="card-title mb-2 fs-4">Make an appointment</h5>
+          
           <form action="/students/<%= student._id %>/appointment" method="POST" novalidate class="mb-3 validated-form">
             <div class="mb-3">
               <label class="form-label" for="date">Date:</label>
@@ -45,13 +46,14 @@
               <label class="form-label" for="note">Note:</label>
               <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
             </div>
-
-            <select name="appointment[status]">
-                <option value="booked">booked</option>
-                <option value="held">held</option>
-                <option value="cancelled">cancelled</option>
-            </select>
-            <button class="btn btn-success" type="submit">save</button>
+            <div class="mb-3 mt-3">
+                <select name="appointment[status]" class="col-12 mx-auto" style="border-radius: 5px; padding: 4px; text-align: center;">
+                    <option value="booked">booked</option>
+                    <option value="held">done</option>
+                    <option value="cancelled">cancelled</option>
+                </select>
+            </div>
+            <button class="btn btn-success col-12 mx-auto" type="submit">save</button>
           </form>
         </div>
       </div>
@@ -59,7 +61,7 @@
     
     <!-- Right side: Appointment List -->
     <div class="col-md-6">
-      <h5>Appointments</h5>
+      <h3 class="card-title mb-2 fs-4">Appointments</h3>
       <% for (let appointment of appointments) { %>
         <form action="/students/<%= student._id %>/appointment/<%= appointment._id %>?_method=PUT" method="POST" novalidate class="mb-3 validated-form">
         <div id="appointment_list" class="card mb-3">
@@ -69,20 +71,21 @@
                 <input class="form-control" type="time" id="endTime" name="appointment[endTime]" value="<%= appointment.endTime %>" required>
                 <label class="form-label" for="note">Note:</label>
                 <textarea class="form-control" type="text" id="note" name="appointment[note]" required><%= appointment.note %></textarea>
-
-                <select name="appointment[status]">
-                    <option value="booked">booked</option>
-                    <option value="held">held</option>
-                    <option value="cancelled">cancelled</option>
-                </select>
-                <button class="btn btn-success" type="submit">save</button>
+                <div class="mb-3 mt-3">
+                    <select name="appointment[status]" class="col-12 mx-auto" style="border-radius: 5px; padding: 4px; text-align: center;">
+                        <option value="booked">booked</option>
+                        <option value="held">done</option>
+                        <option value="cancelled">cancelled</option>
+                    </select>
+                </div>
+                <button class="btn btn-success col-12 mx-auto" type="submit">save</button>
           </div>
 
         </div>
         </form>
       <% } %>
         
-      <a href="/students" class="btn btn-outline-secondary">back to students</a>
+      <a href="/students" class="btn btn-outline-secondary" style="font-weight: 500;">back to students</a>
     </div>
   </div>
 </div>
