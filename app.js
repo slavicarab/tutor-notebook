@@ -28,9 +28,10 @@ const searchRoutes = require('./routes/api');
 //Creating the express app
 const app = express();
 
+const mongoUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/tutor-notebook';
 
 //Connecting to the database
-mongoose.connect('mongodb://127.0.0.1:27017/tutor-notebook', {
+mongoose.connect(mongoUrl, {
     //useNewUrlParser: true,
     //useUnifiedTopology: true,
     //useCreateIndex: true,
