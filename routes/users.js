@@ -3,6 +3,8 @@ const router = express.Router();
 const catchAsync = require('../middlewares/catchAsync');
 const passport = require('passport');
 const User = require('../models/user');
+const { body, validationResult } = require('express-validator');
+
 
 //Rendering the register page
 router.get('/register', (req, res) => {
@@ -11,14 +13,24 @@ router.get('/register', (req, res) => {
 
 
 //Registering the user
-router.post('/register', catchAsync(async (req, res) => {
+router.post('/register', [
+    body('email').isEmail().withMessage('Please enter a valid email address.'),
+    // ...other validations...
+], catchAsync(async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        // Return validation errors
+        return res.status(404).json({
+            message: 'Validation failed'
+        });
+    }
     try{
         const { username, email, password } = req.body;
         const user = new User({ username, email });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if(err) return next(err);
-            req.flash('success', 'Welcome to yelp camp')
+            req.flash('success', 'Welcome')
             res.redirect('/calendar')
         })
 

@@ -1,5 +1,4 @@
-
- .calendar-responsive {
+.calendar-responsive {
     width: 100%;
     margin: 0 auto;
     padding: 10px; 
@@ -47,10 +46,17 @@
       align-items: stretch;
       gap: 0.3rem;
     }
-    .fc-toolbar-chunk .fc-button,
-    .fc-toolbar-chunk button {
-      width: 100%;
-      font-size: 1rem;
-      min-width: unset;
-    }
+  
   }
+
+.fc .fc-button-primary {
+  background-color: #fff;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.fc .fc-button:hover {
+  background-color: #6c757d;
+  color: #fff;
+  font-weight: 500;
+}

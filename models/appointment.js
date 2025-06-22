@@ -21,6 +21,14 @@ const appointmentSchema = new mongoose.Schema({
         enum: ['booked', 'held', 'cancelled'],
         default: 'booked'
     },
+    isIssued: {
+        type: Boolean,
+        default: false
+    },
+    participant_bill: {
+        type: Schema.Types.ObjectId,
+        ref: 'Bill'
+    },
     participants_student: [{
         type: Schema.Types.ObjectId,
         ref: 'Student'

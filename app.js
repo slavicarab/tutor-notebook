@@ -15,9 +15,11 @@ const { isLoggedIn } = require('./middlewares/middleware');
 
 
 
+
 const studentRoutes = require('./routes/students');
 const userRoutes = require('./routes/users');
 const calendarRoutes = require('./routes/calendar');
+const billRoutes = require('./routes/bills');
 const newppointRoutes = require('./routes/newppoint');
 const searchRoutes = require('./routes/api');
 
@@ -50,9 +52,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 //Caling the modules
 app.use(morgan('tiny'));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
+app.use('/bills', express.static(path.join(__dirname, 'bills')));
 
 
 
@@ -94,9 +98,11 @@ app.use((req, res, next) =>{
 
 app.use('/students', isLoggedIn, studentRoutes);
 app.use('/calendar', isLoggedIn, calendarRoutes);
+app.use('/bills', isLoggedIn, billRoutes); 
 app.use('/api', isLoggedIn, searchRoutes);
 app.use('/newppoint', newppointRoutes);
 app.use('/', userRoutes);
+
 
 
 

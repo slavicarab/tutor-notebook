@@ -1,8 +1,7 @@
 document.getElementById('searchInput').addEventListener('input', function (e) {
-   
   const query = e.target.value;
 
-  // Make sure this matches your backend route
+  
   fetch('/api/search?q=' + encodeURIComponent(query), { credentials: 'same-origin' })
     .then(res => res.json())
     .then(data => {

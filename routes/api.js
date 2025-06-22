@@ -20,7 +20,7 @@ router.get('/search', async (req, res) => {
         { 'name.last': { $regex: query, $options: 'i' } }
       ]
     });
-    console.log('Students found:', students); // Add this line
+    console.log('Students found:', students); 
     res.json(students);
   } catch (err) {
     console.error(err);

@@ -7,7 +7,7 @@
             <div class="card-body">
                 
                 <form action="/newppoint" method="POST" novalidate class="mb-3 validated-form">
-                    <div class="mb-3">
+                    <div class="mb-3" style="text-align:left">
                         <label class="form-label" for="studentId">Select Student:</label>
                         <select class="form-control" id="studentId" name="studentId" required>
                         <% students.forEach(function(student) { %>
@@ -15,19 +15,19 @@
                         <% }) %>
                         </select>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" style="text-align:left">
                         <label class="form-label" for="date">Date:</label>
                         <input class="form-control" type="date" id="date" name="appointment[date]" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" style="text-align:left">
                         <label class="form-label" for="startTime">Start Time:</label>
                         <input class="form-control" type="time" id="startTime" name="appointment[startTime]" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" style="text-align:left">
                         <label class="form-label" for="endTime">End Time:</label>
                         <input class="form-control" type="time" id="endTime" name="appointment[endTime]" required>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3" style="text-align:left">
                         <label class="form-label" for="note">Note:</label>
                         <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
                     </div>
@@ -38,7 +38,7 @@
                         <option value="cancelled">cancelled</option>
                     </select>
                     </div>
-                    <button class="btn btn-success col-12 mx-auto"  type="submit">save</button>
+                    <button class="btn btn-success col-12 mx-auto"  type="submit">Save</button>
                 </form>
             </div>
         </div>

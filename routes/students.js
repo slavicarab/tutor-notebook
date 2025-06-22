@@ -45,7 +45,7 @@ router.get('/new', (req, res) => {
 
 router.post('/', validateStudent, catchAsync(async (req, res, next) => {
     const student = new Student(req.body.student);
-    student.user = req.user._id; // <-- Set the user reference
+    student.user = req.user._id; 
     await student.save();
 
     // Optionally update the user as well
@@ -86,17 +86,20 @@ router.post('/:id/appointment', validateAppointment, catchAsync(async (req, res)
     const user = req.user;
 
     // Validate that the required fields are present
-    const { date, startTime, endTime, description, status, note } = req.body.appointment;
+    const { date, startTime, endTime, status, note } = req.body.appointment;
     if (!date || !startTime) {
         throw new ExpressError('Date and Start Time are required', 400);
     }
 
     
-    const appointment = new Appointment({ date, startTime, endTime, description, status, note, participants_student: [student._id], participants_user: [user._id] });
+    const appointment = new Appointment({ date, startTime, endTime, status, note, participants_student: [student._id], participants_user: [user._id] });
     console.log(appointment)
-    student.appointment.push(appointment);
     await appointment.save();
-    await student.save();
+    await Student.findByIdAndUpdate(
+         student._id,
+        { appointment: appointment._id },
+        { new: true } 
+    );
     req.flash('success', 'Successfully added an appointment!');
     res.redirect(`/students/${student._id}`);
 }));
@@ -108,14 +111,14 @@ router.put('/:id/appointment/:appointment_id', validateAppointment, catchAsync(a
     const { appointment_id } = req.params;
     const student = await Student.findById(id);
     const appointment = await Appointment.findById(appointment_id);
-    const { date, startTime, endTime, description, status, note } = req.body.appointment;
+    const { date, startTime, endTime, note, status } = req.body.appointment;
+    console.log(req.body.appointment);
     if (!date || !startTime) {
         throw new ExpressError('Date and Start Time are required', 400);
     }
     appointment.date = date;
     appointment.startTime = startTime;
     appointment.endTime = endTime;
-    appointment.description = description;
     appointment.status = status;
     appointment.note = note;
     await appointment.save();
@@ -127,14 +130,20 @@ router.put('/:id/appointment/:appointment_id', validateAppointment, catchAsync(a
 
 // Getting one student
 router.get('/:id', catchAsync(async (req, res) => {
-    const student = await Student.findById(req.params.id).populate('appointment');
+  
+    const student = await Student.findById(req.params.id);
     if (!student) {
         req.flash('error', 'Student not found');
         return res.redirect('/students');
     }
-    // Now student.appointment is an array of appointment documents
-    const appointments = (student.appointment || []).filter(app => app.status === 'booked');
-    //console.log(student.appointment);
+
+    // Find appointments for this student
+    const appointments = await Appointment.find({
+        participants_student: student._id,
+        status: 'booked'
+    }).populate('participant_bill participants_user');
+    
+   
     res.render('students/show', { student, appointments });
 }));
 

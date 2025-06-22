@@ -26,9 +26,8 @@ router.get('/', catchAsync(async (req, res) => {
         return dateA - dateB;
     });
     appointments = JSON.stringify(appointments.map(function(app) {
-    let dateStr = typeof app.date === 'string'
-      ? app.date.substring(0, 10)
-      : (new Date(app.date)).toISOString().substring(0, 10);
+    const date = new Date(app.date);
+    const dateStr = date.toISOString().slice(0, 10);
     let title = '';
     if (app.student && typeof app.student === 'object') {
       if (app.student.name.first) title += app.student.name.first;

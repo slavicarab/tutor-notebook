@@ -54,19 +54,12 @@ const studentSchema = new Schema({
         ref: 'User'
     },
     appointment: [{
-        date: String,
-        startTime: String,
-        endTime: String,
-        note: String,
-        status: String,
-        student: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Student'
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Appointment'
     }]
 });
 
-studentSchema.post('findOneAndDelete', async function(doc) {
+ studentSchema.post('findOneAndDelete', async function(doc) {
     if(doc){
         await Appointment.deleteMany({
             _id: {
@@ -74,6 +67,6 @@ studentSchema.post('findOneAndDelete', async function(doc) {
             }
         });
     }
-})
+}) 
 
 module.exports = mongoose.model('Student', studentSchema);

@@ -1,8 +1,14 @@
 <% layout('/layouts/boilerplate') %>
 
-<link rel="stylesheet" href="../stylesheets/show.css">
 <div class="container">
+  <div class="d-flex">
+    <div class="ms-auto">
+      <a href="/students" class="btn btn-outline-secondary" style="font-weight: 500;">All students</a>
+    </div>
+  </div>
+    
   <div class="row">
+
     <!-- Left side: Student and Appointment Form -->
     <div class="col-md-6">
       <h3 class="card-title mb-2 fs-4">Personal data</h3>
@@ -12,7 +18,7 @@
           <h5 class="card-subtitle mb-2">Last name: <span style="font-weight: 400;"><%= student.name.last %></span></h5>
           <h5 class="card-subtitle mb-2">E-mail: <span style="font-weight: 400;"><%= student.email %></span></h5>
           <% if (student.description) { %>
-            <p class="card-text">Description: <%= student.description %></p>
+            <h5 class="card-subtitle mb-2">Description: <span style="font-weight: 400;"><%= student.description %></span></h5>
           <% } %>
           
         </div>
@@ -30,19 +36,19 @@
         <div class="card-body">
           
           <form action="/students/<%= student._id %>/appointment" method="POST" novalidate class="mb-3 validated-form">
-            <div class="mb-3">
+            <div class="mb-3" style="text-align:left">
               <label class="form-label" for="date">Date:</label>
-              <input class="form-control" type="date" id="date" name="appointment[date]" required>
+              <input class="form-control" type="date" id="date" name="appointment[date]"  required>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align:left">
               <label class="form-label" for="startTime">Start Time:</label>
               <input class="form-control" type="time" id="startTime" name="appointment[startTime]" required>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align:left">
               <label class="form-label" for="endTime">End Time:</label>
               <input class="form-control" type="time" id="endTime" name="appointment[endTime]" required>
             </div>
-            <div class="mb-3">
+            <div class="mb-3" style="text-align:left">
               <label class="form-label" for="note">Note:</label>
               <textarea class="form-control" id="note" name="appointment[note]" required></textarea>
             </div>
@@ -53,7 +59,7 @@
                     <option value="cancelled">cancelled</option>
                 </select>
             </div>
-            <button class="btn btn-success col-12 mx-auto" type="submit">save</button>
+            <button class="btn btn-success col-12 mx-auto" type="submit">Save</button>
           </form>
         </div>
       </div>
@@ -78,14 +84,20 @@
                         <option value="cancelled">cancelled</option>
                     </select>
                 </div>
-                <button class="btn btn-success col-12 mx-auto" type="submit">save</button>
+                <button class="btn btn-success col-12 mx-auto" type="submit">Save</button>
           </div>
+
 
         </div>
         </form>
       <% } %>
+      <% if (!appointments || appointments.length === 0) { %>
+        <div class="alert alert-info">
+          You have no booked appointments.
+        </div>
+      <% } %>
         
-      <a href="/students" class="btn btn-outline-secondary" style="font-weight: 500;">back to students</a>
+      
     </div>
   </div>
 </div>
