@@ -1,36 +1,38 @@
 <% layout('layouts/boilerplate') -%>
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Bill number</th>
-      <th scope="col">Student Name</th>
-      <th scope="col">Student E-mail address</th>
-      <th scope="col">Date</th>
-      <th scope="col">Status</th>
-      <th scope="col">Duration</th>
-      <th scope="col">Amount</th>
-    </tr>
-</thead>
-  <tbody class="table-group-divider">
-    <% bills.forEach(function(bill) { %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
       <tr>
-        <td><%= bill.billNumber %></td>
-        <td><%= bill.student.name.first %> <%= bill.student.name.last %></td>
-        <td><%= bill.student.email %></td>
-        <td><%= bill.date.toISOString().slice(0, 10) %></td>
-        <td>
-          <select name="status">
-            <option value="paid" <%= bill.status === 'paid' ? 'selected' : '' %>>Paid</option>
-            <option value="unpaid" <%= bill.status === 'unpaid' ? 'selected' : '' %>>Unpaid</option>
-          </select>
-        </td>
-        <td><%= bill.duration %> minutes</td>
-        <td>€<%= bill.amount.toFixed(2) %>
-         <input type="hidden" name="billId" value="<%= bill._id %>"></td>
-        <td><button class="send-btn">Create a pdf</button></td>
+        <th scope="col">Bill number</th>
+        <th scope="col">Student Name</th>
+        <th scope="col" class="d-none d-sm-table-cell">Student E-mail address</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col" class="d-none d-sm-table-cell">Duration</th>
+        <th scope="col">Amount</th>
       </tr>
-    <% }); %>
-  </tbody>
-</table>
+  </thead>
+    <tbody class="table-group-divider">
+      <% bills.forEach(function(bill) { %>
+        <tr>
+          <td><%= bill.billNumber %></td>
+          <td><%= bill.student.name.first %> <%= bill.student.name.last %></td>
+          <td class="d-none d-sm-table-cell"><%= bill.student.email %></td>
+          <td><%= bill.date.toISOString().slice(0, 10) %></td>
+          <td>
+            <select name="status">
+              <option value="paid" <%= bill.status === 'paid' ? 'selected' : '' %>>Paid</option>
+              <option value="unpaid" <%= bill.status === 'unpaid' ? 'selected' : '' %>>Unpaid</option>
+            </select>
+          </td>
+          <td class="d-none d-sm-table-cell"><%= bill.duration %> minutes</td>
+          <td>€<%= bill.amount.toFixed(2) %>
+           <input type="hidden" name="billId" value="<%= bill._id %>"></td>
+          <td><button class="send-btn">Create a pdf</button></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
 <script src="/javascripts/listbill.js"></script>
 <script src="/javascripts/generatePdf.js"></script>

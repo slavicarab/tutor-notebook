@@ -1,36 +1,38 @@
 <% layout('layouts/boilerplate') -%>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Student Name</th>
-      <th scope="col">Date</th>
-      <th scope="col">Status</th>
-      <th scope="col">Duration</th>
-      <th scope="col">Amount</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <% appointments.forEach(function(appointment) { %>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
       <tr>
-        <td>
-          <% if (appointment.participants_student && appointment.participants_student.length > 0) { %>
-            <%= appointment.participants_student[0].name.first %>
-             <%= appointment.participants_student[0].name.last %>
-          <% } else { %>
-            N/A
-          <% } %>
-        </td>
-        <td><%= appointment.date.toISOString().slice(0, 10) %></td>
-        <td><%= appointment.status %></td>
-        <td><input type="text" name="duration">
-        <input type="hidden" name="studentId" value="<%= appointment.participants_student[0]._id %>"></td>
-        <td><input type="text" name="amount">
-        <input type="hidden" name="appointmentId" value="<%= appointment._id %>"></td>
-        <td><button class="send-btn">Create a bill</button></td>
+        <th scope="col">Student Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Action</th>
       </tr>
-    <% }); %>
-  </tbody>
-</table>
+    </thead>
+    <tbody class="table-group-divider">
+      <% appointments.forEach(function(appointment) { %>
+        <tr>
+          <td>
+            <% if (appointment.participants_student && appointment.participants_student.length > 0) { %>
+              <%= appointment.participants_student[0].name.first %>
+               <%= appointment.participants_student[0].name.last %>
+            <% } else { %>
+              N/A
+            <% } %>
+          </td>
+          <td><%= appointment.date.toISOString().slice(0, 10) %></td>
+          <td><%= appointment.status %></td>
+          <td><input type="text" name="duration">
+          <input type="hidden" name="studentId" value="<%= appointment.participants_student[0]._id %>"></td>
+          <td><input type="text" name="amount">
+          <input type="hidden" name="appointmentId" value="<%= appointment._id %>"></td>
+          <td><button class="send-btn">Create a bill</button></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
 <script src="/javascripts/newbill.js"></script>
