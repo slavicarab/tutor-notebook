@@ -33,7 +33,10 @@ A secure and user-friendly platform for trainers to manage students, appointment
 ![All bills](documents/all_bills.png)
 
 ## Live Demo
-👉 [Try it here](https://your-app-demo-url.com)
+👉 [Try it here](https://tutornotebook.ivancevicweb.com)
+
+## Docker Image
+👉 [Try it here](docker push slavicai/tutor-notebook:tagname)
 
 ## Installation
 
