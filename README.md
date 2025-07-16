@@ -36,12 +36,12 @@ A secure and user-friendly platform for trainers to manage students, appointment
 👉 [Try it here](https://tutornotebook.ivancevicweb.com)
 
 ## Docker Image
-```bash
+
  docker push slavicai/tutor-notebook:tagname
 
 ## Installation
 
-1. Clone the repo  
+Clone the repo  
 ```bash
 git clone https://github.com/slavicarab/tutor-notebook.git
 npm install
@@ -49,7 +49,7 @@ npm start
 
 ---
 
-### 7. **Usage**
+### **Usage**
 How to use the app once it’s running.
 
 ```markdown
