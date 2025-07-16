@@ -54,7 +54,7 @@ npm start
 ### **Usage**
 How to use the app once it’s running.
 
-```markdown
+
 ## Usage
 - Register as a new trainer
 - Log in securely
