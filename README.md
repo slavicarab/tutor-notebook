@@ -46,6 +46,7 @@ Clone the repo
 git clone https://github.com/slavicarab/tutor-notebook.git
 npm install
 npm start
+```
 
 ---
 
