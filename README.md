@@ -36,7 +36,8 @@ A secure and user-friendly platform for trainers to manage students, appointment
 👉 [Try it here](https://tutornotebook.ivancevicweb.com)
 
 ## Docker Image
-👉 [Try it here](docker push slavicai/tutor-notebook:tagname)
+```bash
+ docker push slavicai/tutor-notebook:tagname
 
 ## Installation
 
