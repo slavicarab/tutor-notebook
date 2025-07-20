@@ -13,16 +13,13 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const { isLoggedIn } = require('./middlewares/middleware');
 
-
-
-
 const studentRoutes = require('./routes/students');
 const userRoutes = require('./routes/users');
 const calendarRoutes = require('./routes/calendar');
 const billRoutes = require('./routes/bills');
 const newppointRoutes = require('./routes/newppoint');
 const searchRoutes = require('./routes/api');
-
+const authRoutes = require('./routes/auth');
 
 
 //Creating the express app
@@ -58,6 +55,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from the public directory
 app.use('/bills', express.static(path.join(__dirname, 'bills')));
+app.use("/auth", authRoutes);
+app.use(session({
+  secret: 'notebooksecretkey',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(flash());
 
 
 
@@ -76,6 +81,14 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  res.locals.currentUser = req.user || null;
+  next();
+});
+
+
 
 //Passport
 app.use(passport.initialize())
@@ -87,12 +100,18 @@ passport.deserializeUser(User.deserializeUser());
 
 
 // Middleware to set flash messages and current user
-app.use((req, res, next) =>{
+/* app.use((req, res, next) =>{
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     next()
-})
+}) */
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user || null;
+  next();
+});
+
 
 
 //Routes
@@ -102,8 +121,8 @@ app.use('/calendar', isLoggedIn, calendarRoutes);
 app.use('/bills', isLoggedIn, billRoutes); 
 app.use('/api', isLoggedIn, searchRoutes);
 app.use('/newppoint', newppointRoutes);
+app.use('/reset', authRoutes);
 app.use('/', userRoutes);
-
 
 
 

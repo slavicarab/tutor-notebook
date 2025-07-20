@@ -21,6 +21,9 @@ const UserSchema = new Schema({
         ref: 'Student'
     }],
 
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+
 });
 
 

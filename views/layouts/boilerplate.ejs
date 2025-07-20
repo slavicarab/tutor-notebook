@@ -18,5 +18,15 @@
     <script src="/javascripts/validateForms.js"></script>
     <script src="/javascripts/search.js"></script>
 
+    <% if (success && success.length > 0) { %>
+      <div class="alert alert-success">
+        <%= success[0] %>
+      </div>
+    <% } %>
+    <% if (error && error.length > 0) { %>
+      <div class="alert alert-danger">
+        <%= error[0] %>
+      </div>
+    <% } %>
 </body>
 </html>
