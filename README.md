@@ -61,6 +61,18 @@ How to use the app once it’s running.
 - Add students and schedule sessions
 - Generate and download invoices
 
+
+## Settings for forgot-password
+In order to set the functionality reset-password you need to set up e-mail parameters. In order to do that you need to:
+- create .env file
+- put following values: 
+```bash
+EMAIL_USER=your e-mail address
+EMAIL_PASS=your password
+EMAIL_HOST=your mail server
+```
+
+
 ## Security
 - Passwords are hashed with bcrypt
 
